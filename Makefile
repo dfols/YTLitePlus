@@ -15,21 +15,22 @@ EXTRA_CFLAGS := $(addprefix -I,$(shell find Tweaks/FLEX -name '*.h' -exec dirnam
 # Allow YouTubeHeader to be accessible using #include <...>
 export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks
 
-# Split the dylib list into smaller batches to avoid too long argument lists
-YTLitePlus_INJECT_DYLIBS += .theos/obj/libcolorpicker.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/IAmYouTube.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YTUHD.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouPiP.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouTubeDislikesReturn.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YTABConfig.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouMute.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/DontEatMyContent.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YTHoldForSpeed.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YTVideoOverlay.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouGroupSettings.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouQuality.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouTimeStamp.dylib
-YTLitePlus_INJECT_DYLIBS += .theos/obj/YouLoop.dylib
+# Replace iSponsorBlock with IAmYouTube
+YTLitePlus_INJECT_DYLIBS = Tweaks/YTLite/var/jb/Library/MobileSubstrate/DynamicLibraries/YTLite.dylib \
+  .theos/obj/libcolorpicker.dylib \
+  .theos/obj/IAmYouTube.dylib \
+  .theos/obj/YTUHD.dylib \
+  .theos/obj/YouPiP.dylib \
+  .theos/obj/YouTubeDislikesReturn.dylib \
+  .theos/obj/YTABConfig.dylib \
+  .theos/obj/YouMute.dylib \
+  .theos/obj/DontEatMyContent.dylib \
+  .theos/obj/YTHoldForSpeed.dylib \
+  .theos/obj/YTVideoOverlay.dylib \
+  .theos/obj/YouGroupSettings.dylib \
+  .theos/obj/YouQuality.dylib \
+  .theos/obj/YouTimeStamp.dylib \
+  .theos/obj/YouLoop.dylib
 
 YTLitePlus_FILES = YTLitePlus.xm $(shell find Source -name '*.xm' -o -name '*.x' -o -name '*.m') $(shell find Tweaks/FLEX -type f \( -iname \*.c -o -iname \*.m -o -iname \*.mm \))
 YTLitePlus_IPA = ./tmp/Payload/YouTube.app
@@ -42,7 +43,7 @@ SUBPROJECTS += Tweaks/Alderis Tweaks/IAmYouTube Tweaks/YTUHD Tweaks/YouPiP Tweak
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 YTLITE_PATH = Tweaks/YTLite
-YTLITE_VERSION := $(shell wget -qO- "https://github.com/dayanch96/YTLite/releases/latest")
+YTLITE_VERSION := 5.0.2
 YTLITE_DEB = $(YTLITE_PATH)/com.dvntm.ytlite_$(YTLITE_VERSION)_iphoneos-arm64.deb
 YTLITE_DYLIB = $(YTLITE_PATH)/var/jb/Library/MobileSubstrate/DynamicLibraries/YTLite.dylib
 YTLITE_BUNDLE = $(YTLITE_PATH)/var/jb/Library/Application\ Support/YTLite.bundle
