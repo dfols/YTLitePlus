@@ -66,9 +66,12 @@ before-package::
 	@cp -R Tweaks/YouLoop/layout/Library/Application\ Support/YouLoop.bundle Resources/
 	@cp -R lang/YTLitePlus.bundle Resources/
 	@echo -e "==> \033[1mChanging the installation path of dylibs...\033[0m"
-	@ldid -r install_name_tool -change /usr/lib/libcolorpicker.dylib @rpath/libcolorpicker.dylib
-	@codesign --remove-signature .theos/obj/libcolorpicker.dylib && install_name_tool -change /Library/Frameworks/Alderis.framework/Alderis @rpath/Alderis.framework/Alderis .theos/obj/libcolorpicker.dylib
-
+	# Fix install_name_tool command separately from ldid
+	@install_name_tool -change /usr/lib/libcolorpicker.dylib @rpath/libcolorpicker.dylib .theos/obj/libcolorpicker.dylib
+	@install_name_tool -change /Library/Frameworks/Alderis.framework/Alderis @rpath/Alderis.framework/Alderis .theos/obj/libcolorpicker.dylib
+	
+	# Now sign the binaries with ldid
+	@ldid -S .theos/obj/libcolorpicker.dylib
 internal-clean::
 	@rm -rf $(YTLITE_PATH)/*
 
